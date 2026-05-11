@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap Full Stack C# + Angular 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        [data-theme="dark"] {
+            --bg: #050a09; --bg-elevated: #0b1411; --card: #101d19; --card-hover: #152420;
+            --border: #1e312b; --border-light: #2a4339; --accent: #00e896; --accent-dim: #00c47e;
+            --accent-glow: rgba(0, 232, 150, 0.1); --accent-glow-strong: rgba(0, 232, 150, 0.25);
+            --secondary: #ff7a55; --tertiary: #4dc9f6; --fg: #e2f0ea; --fg-secondary: #9bb5aa; --fg-muted: #5e7a6e;
+        }
+        [data-theme="light"] {
+            --bg: #f4f7f6; --bg-elevated: #ffffff; --card: #ffffff; --card-hover: #f0f5f3;
+            --border: #d1ddd8; --border-light: #b8cfc7; --accent: #00b374; --accent-dim: #009e66;
+            --accent-glow: rgba(0, 179, 116, 0.08); --accent-glow-strong: rgba(0, 179, 116, 0.2);
+            --secondary: #e05a33; --tertiary: #0ea5e9; --fg: #0f1f1a; --fg-secondary: #3d5a50; --fg-muted: #6e8a7e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+
+        .bg-grid { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 50px 50px; opacity: 0.3; }
+        .bg-glow { position: fixed; z-index: 0; pointer-events: none; border-radius: 50%; filter: blur(80px); opacity: 0.6; }
+        .bg-glow-1 { top: -200px; right: -100px; width: 600px; height: 600px; background: var(--accent-glow-strong); animation: floatG 15s ease-in-out infinite; }
+        .bg-glow-2 { bottom: -200px; left: -100px; width: 800px; height: 800px; background: rgba(124,106,255,0.1); animation: floatG 20s ease-in-out infinite reverse; }
+        @keyframes floatG { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-30px)} }
+        [data-theme="light"] .bg-glow { filter: blur(120px); opacity: 0.4; }
+        .container { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); transition: all 0.3s ease; }
+        .navbar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.1); }
+        .navbar-inner { max-width: 1120px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .navbar-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--accent); text-decoration: none; }
+        .navbar-logo .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 12px var(--accent-glow-strong); }
+        .nav-stats { display: flex; align-items: center; gap: 16px; }
+        .stat-badge { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--fg-secondary); background: var(--bg-elevated); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); }
+        .stat-badge i { font-size: 14px; }
+        .stat-badge.streak i { color: #ff7a55; }
+        .stat-badge.rank i { color: var(--accent); }
+        .navbar-progress { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; }
+        .progress-bar-container { width: 100px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--tertiary)); border-radius: 3px; width: 0%; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
+        .desktop-nav { display: flex; gap: 4px; align-items: center; }
+        .nav-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--fg-muted); cursor: pointer; font-size: 16px; transition: all 0.2s; }
+        .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .share-btn { width: auto; padding: 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; gap: 6px; color: var(--tertiary); border-color: rgba(77,201,246,0.3); }
+        .share-btn:hover { border-color: var(--tertiary); background: rgba(77,201,246,0.05); }
+        .mobile-toggle { display: none; background: none; border: 1px solid var(--border); color: var(--fg); width: 40px; height: 40px; border-radius: 10px; font-size: 18px; cursor: pointer; align-items: center; justify-content: center; }
+        .mobile-menu { display: none; position: fixed; top: 65px; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: 16px 24px; z-index: 99; flex-direction: column; gap: 8px; }
+        .mobile-menu.open { display: flex; }
+        .mobile-link { padding: 12px 0; font-size: 16px; color: var(--fg-secondary); border-bottom: 1px solid var(--border); cursor: pointer; }
+        @media (max-width: 900px) { .desktop-nav { display: none; } .mobile-toggle { display: flex; } .progress-bar-container { width: 60px; } .nav-stats { gap: 8px; } }
+        @media (max-width: 500px) { .stat-badge.rank { display: none; } }
+
+        .hero { padding: 120px 0 40px; text-align: center; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; background: var(--accent-glow); border: 1px solid rgba(0,232,150,0.2); border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 24px; }
+        .hero-title { font-size: clamp(36px, 8vw, 72px); font-weight: 700; letter-spacing: -2.5px; line-height: 1.05; margin-bottom: 20px; }
+        .hero-title .highlight { background: linear-gradient(135deg, var(--accent), var(--tertiary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-subtitle { font-size: 17px; color: var(--fg-secondary); max-width: 620px; margin: 0 auto 36px; line-height: 1.7; }
+        .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; max-width: 600px; margin: 0 auto; }
+        .hero-stat { padding: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+        .hero-stat-value { font-size: 24px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--fg); }
+        .hero-stat-label { font-size: 11px; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+        .timeline-visual { display: flex; align-items: center; justify-content: center; gap: 0; margin: 0 auto 48px; max-width: 820px; }
+        .timeline-node { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; font-family: 'JetBrains Mono', monospace; cursor: pointer; position: relative; transition: all 0.3s ease; flex-shrink: 0; }
+        .timeline-node::after { content: attr(data-label); position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); font-size: 10px; white-space: nowrap; color: var(--fg-muted); }
+        .timeline-node:hover { transform: scale(1.15); }
+        .timeline-node.p1 { background: rgba(0,232,150,0.12); border: 2px solid var(--phase1); color: var(--phase1); }
+        .timeline-node.p2 { background: rgba(124,106,255,0.12); border: 2px solid var(--phase2); color: var(--phase2); }
+        .timeline-node.p3 { background: rgba(255,85,119,0.12); border: 2px solid var(--phase3); color: var(--phase3); }
+        .timeline-node.p4 { background: rgba(77,201,246,0.12); border: 2px solid var(--phase4); color: var(--phase4); }
+        .timeline-node.p5 { background: rgba(255,179,64,0.12); border: 2px solid var(--phase5); color: var(--phase5); }
+        :root { --phase1: #00e896; --phase2: #7c6aff; --phase3: #ff5577; --phase4: #4dc9f6; --phase5: #ffb340; }
+        .timeline-connector { flex: 1; height: 3px; background: var(--border); position: relative; min-width: 20px; border-radius: 2px; }
+        .timeline-connector::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: var(--fill,0%); transition: width 0.6s ease; border-radius: 2px; }
+        .timeline-connector.p1::after { background: var(--phase1); } .timeline-connector.p2::after { background: var(--phase2); } .timeline-connector.p3::after { background: var(--phase3); } .timeline-connector.p4::after { background: var(--phase4); }
+        @media (max-width: 768px) { .timeline-visual { display: none; } }
+
+        .phases-section { padding-bottom: 40px; }
+        .phase-block { margin-bottom: 24px; opacity: 0; transform: translateY(40px); transition: all 0.6s cubic-bezier(0.4,0,0.2,1); }
+        .phase-block.visible { opacity: 1; transform: translateY(0); }
+        .phase-header { display: flex; align-items: center; gap: 16px; cursor: pointer; padding: 20px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .phase-header::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; border-radius: 0 2px 2px 0; }
+        .phase-header.p1::before { background: var(--phase1); } .phase-header.p2::before { background: var(--phase2); } .phase-header.p3::before { background: var(--phase3); } .phase-header.p4::before { background: var(--phase4); } .phase-header.p5::before { background: var(--phase5); }
+        .phase-header:hover { border-color: var(--border-light); }
+        .phase-header.open { border-radius: 16px 16px 0 0; border-bottom-color: transparent; }
+        .phase-header.completed { border-color: rgba(0,232,150,0.3); box-shadow: 0 0 20px var(--accent-glow); }
+        .phase-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .phase-icon.p1 { background: rgba(0,232,150,0.1); color: var(--phase1); } .phase-icon.p2 { background: rgba(124,106,255,0.1); color: var(--phase2); } .phase-icon.p3 { background: rgba(255,85,119,0.1); color: var(--phase3); } .phase-icon.p4 { background: rgba(77,201,246,0.1); color: var(--phase4); } .phase-icon.p5 { background: rgba(255,179,64,0.1); color: var(--phase5); }
+        .phase-info { flex: 1; }
+        .phase-number { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px; }
+        .phase-number.p1 { color: var(--phase1); } .phase-number.p2 { color: var(--phase2); } .phase-number.p3 { color: var(--phase3); } .phase-number.p4 { color: var(--phase4); } .phase-number.p5 { color: var(--phase5); }
+        .phase-title { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+        .phase-desc { font-size: 13px; color: var(--fg-muted); margin-top: 4px; display: none; }
+        .phase-meta { display: flex; align-items: center; gap: 12px; }
+        .phase-duration { font-size: 12px; color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; background: var(--bg); padding: 4px 8px; border-radius: 6px; }
+        .phase-progress-mini { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; }
+        .phase-progress-bar { width: 60px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+        .phase-progress-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; width: 0%; }
+        .phase-toggle { color: var(--fg-muted); transition: transform 0.3s ease; font-size: 14px; }
+        .phase-header.open .phase-toggle { transform: rotate(180deg); }
+        @media (min-width: 769px) { .phase-desc { display: block; } }
+        @media (max-width: 768px) { .phase-meta { flex-direction: column; align-items: flex-end; gap: 4px; } .phase-header.open .phase-desc { display: block; } }
+
+        .phase-content { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1); background: var(--card); border: 1px solid var(--border); border-top: none; border-radius: 0 0 16px 16px; }
+        .phase-content.open { max-height: 30000px; }
+        .phase-content-inner { padding: 24px; }
+
+        .subcategory { margin-bottom: 24px; }
+        .subcategory-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        .subcategory-icon { width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; background: var(--bg); border: 1px solid var(--border); color: var(--fg-muted); }
+        .subcategory-title { font-size: 13px; font-weight: 600; color: var(--fg-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-bottom: 16px; }
+        @media (max-width: 768px) { .skills-grid { grid-template-columns: 1fr; } }
+        .skill-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s ease; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .skill-item:hover { background: var(--card-hover); border-color: var(--border-light); }
+        .skill-item.checked { border-color: rgba(0,232,150,0.2); background: var(--accent-glow); }
+        .skill-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-size: 10px; color: transparent; }
+        .skill-item.checked .skill-check { border-color: var(--accent); background: var(--accent); color: var(--bg); transform: scale(1.1); }
+        .skill-name { font-size: 13px; font-weight: 500; color: var(--fg-secondary); transition: color 0.2s; }
+        .skill-item.checked .skill-name { color: var(--fg); text-decoration: line-through; text-decoration-color: var(--fg-muted); }
+
+        .realistic-guide { margin-top: 12px; border: 1px solid rgba(77,201,246,0.15); background: rgba(77,201,246,0.03); border-radius: 10px; overflow: hidden; }
+        .guide-toggle { width: 100%; padding: 12px 16px; display: flex; align-items: center; gap: 10px; background: none; border: none; color: var(--tertiary); font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; text-align: left; transition: background 0.2s; }
+        .guide-toggle:hover { background: rgba(77,201,246,0.06); }
+        .guide-toggle i.chevron { margin-left: auto; transition: transform 0.3s; font-size: 12px; }
+        .guide-toggle.open i.chevron { transform: rotate(180deg); }
+        .guide-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .guide-content.open { max-height: 1500px; }
+        .guide-content-inner { padding: 0 16px 16px; font-size: 13px; color: var(--fg-secondary); line-height: 1.6; }
+        .guide-content-inner strong { color: var(--fg); }
+        .guide-content-inner .basta { color: var(--accent); }
+        .guide-content-inner .nao-precisa { color: var(--secondary); }
+        .guide-content-inner .teste-pratico { background: var(--accent-glow); border: 1px solid rgba(0,232,150,0.1); padding: 12px; border-radius: 8px; margin-top: 8px; }
+
+        .info-box { margin-top: 16px; padding: 16px; border-radius: 10px; display: flex; gap: 12px; align-items: flex-start; }
+        .info-box i { margin-top: 2px; font-size: 14px; flex-shrink: 0; }
+        .info-box.milestone { background: var(--accent-glow); border: 1px solid rgba(0,232,150,0.1); }
+        .info-box.milestone i { color: var(--accent); }
+        .info-box.tip { background: rgba(255,179,64,0.04); border: 1px solid rgba(255,179,64,0.1); }
+        .info-box.tip i { color: var(--phase5); }
+        .info-box span { font-size: 13px; color: var(--fg-secondary); line-height: 1.5; }
+
+        .projects-section, .schedule-section { padding: 60px 0; }
+        .section-header { text-align: center; margin-bottom: 48px; }
+        .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--secondary); margin-bottom: 12px; }
+        .section-title { font-size: 32px; font-weight: 700; letter-spacing: -1px; }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+        @media (max-width: 768px) { .projects-grid { grid-template-columns: 1fr; } }
+        .project-card { padding: 24px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; transition: all 0.3s ease; }
+        .project-card:hover { border-color: var(--border-light); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.05); }
+        .project-top { display: flex; justify-content: space-between; margin-bottom: 12px; }
+        .project-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-glow); display: flex; align-items: center; justify-content: center; color: var(--accent); }
+        .project-difficulty { padding: 4px 10px; font-size: 10px; font-weight: 600; text-transform: uppercase; border-radius: 6px; height: fit-content; }
+        .beginner { background: rgba(0,232,150,0.1); color: var(--accent); }
+        .intermediate { background: rgba(77,201,246,0.1); color: var(--tertiary); }
+        .project-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+        .project-desc { font-size: 13px; color: var(--fg-muted); margin-bottom: 12px; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .project-tag { padding: 3px 8px; font-size: 10px; border-radius: 4px; background: var(--bg); border: 1px solid var(--border); color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; }
+
+        .schedule-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+        @media (max-width: 768px) { .schedule-grid { grid-template-columns: repeat(2, 1fr); } }
+        .schedule-card { padding: 20px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; text-align: center; }
+        .schedule-dot { width: 10px; height: 10px; border-radius: 50%; margin: 0 auto 10px; }
+        .schedule-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .schedule-time { font-size: 12px; color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; }
+
+        .cta-section { padding: 40px 0 80px; text-align: center; }
+        .cta-box { padding: 48px; background: linear-gradient(135deg, var(--accent-glow), rgba(77,201,246,0.02)); border: 1px solid var(--border); border-radius: 24px; }
+        .cta-title { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+        .cta-text { font-size: 16px; color: var(--fg-secondary); max-width: 500px; margin: 0 auto 28px; }
+        .cta-btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: var(--accent); color: var(--bg); font-weight: 700; border: none; border-radius: 12px; cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+        .cta-btn:hover { background: var(--accent-dim); transform: translateY(-2px); }
+        
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+        footer { padding: 24px 0; text-align: center; border-top: 1px solid var(--border); }
+        footer p { font-size: 12px; color: var(--fg-muted); }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div><div class="bg-glow bg-glow-1"></div><div class="bg-glow bg-glow-2"></div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <a class="navbar-logo" href="#"><div class="dot"></div><span>Roadmap</span></a>
+            <div class="nav-stats">
+                <div class="stat-badge streak"><i class="fas fa-fire"></i><span id="streakCount">0</span></div>
+                <div class="stat-badge rank"><i class="fas fa-medal"></i><span id="rankTitle">Recruta</span></div>
+            </div>
+            <div class="navbar-progress">
+                <span id="progressText">0%</span>
+                <div class="progress-bar-container"><div class="progress-bar-fill" id="progressBarFill"></div></div>
+            </div>
+            <div class="desktop-nav">
+                <button class="nav-btn share-btn" onclick="shareProgress()"><i class="fab fa-linkedin-in"></i> Compartilhar</button>
+                <button class="nav-btn" onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button>
+                <button class="nav-btn" onclick="resetProgress()"><i class="fas fa-redo"></i></button>
+            </div>
+            <button class="mobile-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars" id="menu-icon"></i></button>
+        </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-link" onclick="scrollToSection('phases'); toggleMobileMenu();">Fases</div>
+        <div class="mobile-link" onclick="shareProgress(); toggleMobileMenu();">Compartilhar</div>
+        <div class="mobile-link" onclick="toggleTheme(); toggleMobileMenu();">Tema</div>
+        <div class="mobile-link" onclick="resetProgress(); toggleMobileMenu();">Resetar</div>
+    </div>
+
+    <header class="hero">
+        <div class="container">
+            <div class="hero-badge"><i class="fas fa-rocket"></i> Edição Definitiva 2026</div>
+            <h1 class="hero-title">Full Stack<br><span class="highlight">C# + Angular</span></h1>
+            <p class="hero-subtitle">A jornada mais completa, realista e sem gaps do zero ao profissional.</p>
+            <div class="hero-stats">
+                <div class="hero-stat"><div class="hero-stat-value" id="totalSkills">0</div><div class="hero-stat-label">Skills</div></div>
+                <div class="hero-stat"><div class="hero-stat-value">5</div><div class="hero-stat-label">Fases</div></div>
+                <div class="hero-stat"><div class="hero-stat-value">6+</div><div class="hero-stat-label">Projetos</div></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="timeline-visual">
+            <div class="timeline-node p1" data-label="Base" onclick="scrollToPhase(0)">1</div><div class="timeline-connector p1" style="--fill:0%"></div>
+            <div class="timeline-node p2" data-label="Backend" onclick="scrollToPhase(1)">2</div><div class="timeline-connector p2" style="--fill:0%"></div>
+            <div class="timeline-node p3" data-label="Angular" onclick="scrollToPhase(2)">3</div><div class="timeline-connector p3" style="--fill:0%"></div>
+            <div class="timeline-node p4" data-label="FullStack" onclick="scrollToPhase(3)">4</div><div class="timeline-connector p4" style="--fill:0%"></div>
+            <div class="timeline-node p5" data-label="Especializa" onclick="scrollToPhase(4)">5</div>
+        </div>
+    </div>
+
+    <section class="phases-section" id="phases"><div class="container" id="phasesContainer"></div></section>
+    <section class="projects-section" id="projects"><div class="container"><div class="section-header"><div class="section-label">Portfolio</div><h2 class="section-title">Projetos Recomendados</h2></div><div class="projects-grid" id="projectsGrid"></div></div></section>
+    <section class="schedule-section" id="schedule"><div class="container"><div class="section-header"><div class="section-label">Cronograma</div><h2 class="section-title">Tempo Estimado</h2></div><div class="schedule-grid" id="scheduleGrid"></div></div></section>
+    <section class="cta-section"><div class="container"><div class="cta-box"><h2 class="cta-title">Consistência vence talentos</h2><p class="cta-text">Mantenha sua sequência de estudos e foque no que basta. O segredo é não parar.</p><button class="cta-btn" onclick="scrollToSection('phases')"><i class="fas fa-play"></i> Começar Agora</button></div></div></section>
+    <footer><div class="container"><p>Roadmap Full Stack C# + Angular 2026</p></div></footer>
+
+    <script>
+        const phasesData = [
+            { id: 'phase1', number: 'Fase 1', title: 'Base da Programação', duration: '2.5-3 meses', icon: 'fa-solid fa-seedling', colorClass: 'p1', desc: 'Fundamentos sólidos sem afogamento.', milestone: 'Criar uma página web responsiva e acessível do zero, manipular o DOM com JS e versionar no Git.', tip: 'Não pule! A acessibilidade te diferencia logo de cara.', subcategories: [ { title: 'Lógica & Algoritmos', icon: 'fa-solid fa-brain', skills: ['Lógica de programação','Estruturas de decisão e repetição','Funções, escopo e recursão','Arrays, listas e dicionários','Big O básico'], guide: { teste: 'Resolver 5 problemas fáceis no Codewars sem colar.', basta: 'Entender loops, condicionais e arrays.', naoPrecisa: 'Algoritmos de olimpíada matemática agora.' } }, { title: 'Versionamento', icon: 'fa-brands fa-git-alt', skills: ['Git e GitHub','Branches, merge e pull requests','Terminal Linux básico','Conventional Commits'], guide: { teste: 'Criar repo, fazer alteração, criar branch e PR.', basta: 'Saber add, commit, push, pull, checkout.', naoPrecisa: 'Resolver conflitos complexos de rebase agora.' } }, { title: 'HTML & CSS', icon: 'fa-brands fa-html5', skills: ['HTML5 semântico','CSS3 moderno','Flexbox e Grid','Responsividade e mobile-first','Variáveis CSS','Animações CSS básicas','Acessibilidade básica (a11y)','Semantic HTML importance','ARIA labels','Alt text em imagens','Color contrast'], guide: { teste: 'O Teste dos 3 Layouts + Validar o dashboard com Lighthouse ou leitor de tela.', basta: 'Saber Flexbox, Grid, @media queries e ARIA labels essenciais.', naoPrecisa: 'Decorar todas as WCAG ou WAI-ARIA avançado agora.' } }, { title: 'JavaScript', icon: 'fa-brands fa-js', skills: ['JavaScript moderno (ES6+)','Promises, async/await','DOM e Fetch API','Desestruturação e spread','Map, filter, reduce','HTTP, REST e JSON','npm/yarn básico'], guide: { teste: 'Buscar dados de API via Fetch e renderizar no HTML usando um pacote baixado via npm.', basta: 'Entender Promises, Fetch, DOM e saber instalar pacotes via npm.', naoPrecisa: 'Entender a Event Loop a fundo ou criar bibliotecas npm agora.' } }, { title: 'Ponte: Intro ao TypeScript', icon: 'fa-solid fa-t', skills: ['Types básicos (string, number, boolean)','Interfaces vs Types','Por que tipagem forte importa','POO em C# vs TS'], guide: { teste: 'Pegar um arquivo JS com objetos complexos e tipá-lo sem usar "any".', basta: 'Criar interfaces e tipar retornos de API.', naoPrecisa: 'Tipos condicionais avançados ou Generics complexos agora.' } } ] },
+            { id: 'phase2', number: 'Fase 2', title: 'Backend com C# e .NET', duration: '3 meses', icon: 'fa-solid fa-server', colorClass: 'p2', desc: 'O coração do sistema. Deixe de ser só "quem faz tela".', milestone: 'Criar uma API REST versionada, com Auth, BD, SQL puro e tratamento global de erros.', tip: 'Crie projetos paralelos. Erro 500 real ensina mais que tutorial.', subcategories: [ { title: 'C# Core', icon: 'fa-solid fa-code', skills: ['Fundamentos de C#','POO completa','Classes, structs e interfaces','Herança e polimorfismo','LINQ','Generics','Tratamento de Exceções (Try/catch/finally)','Custom exceptions','Exception filters','Logging de erros','Delegates e events','Async/Await'], guide: { teste: 'Modelar sistema bancário simples com Interfaces, LINQ e criar exceções customizadas (ex: SaldoInsuficienteException).', basta: 'POO, tipagem forte, Async/Await e saber criar suas próprias Exceptions.', naoPrecisa: 'Alocação de memória profunda ou delegates multicast complexos agora.' } }, { title: 'ASP.NET Core', icon: 'fa-solid fa-globe', skills: ['ASP.NET Core','Minimal APIs e Controllers','API Versioning (URL versioning)','Header versioning','Query parameter versioning','Middlewares','Dependency Injection','Logging','Swagger e Postman','Configuração e ambientes'], guide: { teste: 'Criar API v1 e v2 do mesmo endpoint com contratos diferentes rodando simultaneamente.', basta: 'Versioning por URL, Endpoints, DI e Swagger.', naoPrecisa: 'Content negotiation avançado ou pipeline interno do Kestrel agora.' } }, { title: 'Dados & ORM', icon: 'fa-solid fa-database', skills: ['Entity Framework Core','Migrations','SQL Server e PostgreSQL','SQL Fundamentals (SELECT, WHERE, ORDER BY)','JOIN (INNER, LEFT, RIGHT)','GROUP BY, HAVING, aggregate functions','Índices e EXPLAIN','Subqueries','Relacionamentos','Queries otimizadas'], guide: { teste: 'Banco com 3 tabelas, Seed, JOIN via LINQ. E escrever 5 queries em SQL puro que equivalem aos LINQs que você fez.', basta: 'Code-First, Migrations, chaves estrangeiras e ler/escrever SELECT/JOIN/GROUP BY em SQL puro.', naoPrecisa: 'Procedures, triggers, views complexas agora.' } }, { title: 'Segurança, Erros & Testes', icon: 'fa-solid fa-shield-halved', skills: ['JWT Authentication','Roles, Claims e Policies','Tratamento de Erros Centralizado','Exception filters global','Logging estruturado (Serilog)','Testes com xUnit','Moq e mocking'], guide: { teste: 'Rota que só permite acesso com Token e Role "Admin", e se ocorrer erro, cai no handler global que retorna JSON padronizado e loga via Serilog.', basta: 'Gerar JWT, proteger rotas, Exception Filter global e testes básicos.', naoPrecisa: 'OAuth2 completo ou testes de carga agora.' } } ] },
+            { id: 'phase3', number: 'Fase 3', title: 'Frontend com Angular', duration: '3 meses', icon: 'fa-brands fa-angular', colorClass: 'p3', desc: 'O framework enterprise. Ele te ensina arquitetura.', milestone: 'Criar SPA com rotas, formulários reativos, API, testes de componentes e tratamento de erros.', tip: 'RxJS é o maior desafio. Não entendê-lo é sofrer no Angular.', subcategories: [ { title: 'TypeScript (Aprofundamento)', icon: 'fa-solid fa-t', skills: ['TypeScript completo','Interfaces e types avançados','Generics em TS','Utility types (Pick, Omit, Partial)'], guide: { teste: 'Tipar o retorno de uma API complexa utilizando Utility Types.', basta: 'Interfaces avançadas e tipar retornos de API.', naoPrecisa: 'Tipos condicionais avançados (infer) agora.' } }, { title: 'Angular Base', icon: 'fa-brands fa-angular', skills: ['Angular CLI','Components e templates','Data binding','Diretivas e Pipes','Lifecycle hooks','Standalone Components'], guide: { teste: 'Componente de Card que recebe dados e emite evento de clique.', basta: 'Input/Output e ciclo de vida.', naoPrecisa: 'Criar bibliotecas de componentes agora.' } }, { title: 'Formulários & RxJS', icon: 'fa-solid fa-list-check', skills: ['Reactive Forms','Validação de formulários','RxJS e Observables','Operators principais','Subjects'], guide: { teste: 'Formulário que desabilita botão com campos inválidos e busca CEP automática (switchMap).', basta: 'Reactive Forms, Observable, map, filter, switchMap.', naoPrecisa: 'Decorar todos os 100+ operadores do RxJS.' } }, { title: 'Testes em Angular', icon: 'fa-solid fa-vial', skills: ['Jasmine e Karma','Testes unitários de componentes','Testing utilities (TestBed, ComponentFixture)','Mocking de Services','Testes de Pipes e Directives'], guide: { teste: 'Componente com Input/Output + testes que verificam dados e emits usando spyOn.', basta: 'TestBed, spyOn e testes de renderização básicos.', naoPrecisa: '100% de cobertura ou test-driven development agora.' } }, { title: 'Arquitetura, Padrões & Perf', icon: 'fa-solid fa-sitemap', skills: ['Services e DI','Design Patterns: Smart vs Dumb Components','Facade Pattern para Services','Error Handling: Global error interceptor','Toast/Snackbar para erros','Retry logic em requisições','HttpClient','Interceptors','Guards','Rotas e Lazy Loading','Signals','Performance com OnPush'], guide: { teste: 'Refatorar componente acoplado em Smart + Dumb. Implementar Interceptor global que exibe Toast em erro 500 e faz Retry em erro de rede.', basta: 'Separar lógica de apresentação, Interceptors, Guards, Signals e Lazy Loading.', naoPrecisa: 'Todos os padrões GoF ou NgRx para estado global agora.' } } ] },
+            { id: 'phase4', number: 'Fase 4', title: 'Integração Full Stack', duration: '2-3 meses', icon: 'fa-solid fa-link', colorClass: 'p4', desc: 'Conectando os mundos. Fazendo a mágica acontecer em produção.', milestone: 'Deploy de app full stack com Docker, CI/CD, testes E2E e variáveis seguras.', tip: 'Sabendo fazer deploy e integrar testes, você destaca de 90% dos iniciantes.', subcategories: [ { title: 'Integração & Testes E2E', icon: 'fa-solid fa-plug', skills: ['Angular consumindo API .NET','Testes End-to-End (Cypress ou Playwright)','Testes de fluxos completos','Testes de autenticação real','Configuração de Ambientes (appsettings.json vs env)','environment.ts vs environment.prod.ts','Secrets management (não commitar senhas!)','CI/CD com variáveis de ambiente','CORS','Upload de arquivos','Paginação e filtros','SignalR'], guide: { teste: 'Teste E2E que faz login, acessa dashboard, cria item e valida na API. Rodar a aplicação local com variáveis de ambiente de desenvolvimento, sem senhas no código.', basta: 'Um teste E2E completo funcionando, separar configs de Dev/Prod e tratar CORS.', naoPrecisa: 'Suite gigante de 100+ testes E2E ou Vault/HashiCorp para secrets agora.' } }, { title: 'Containers & DevOps', icon: 'fa-brands fa-docker', skills: ['Docker','Docker Compose','Dockerfile multi-stage','GitHub Actions','CI/CD'], guide: { teste: 'Subir BD, API e Angular em containers comunicando via docker-compose.', basta: 'Dockerfile, containers e CI básico.', naoPrecisa: 'Kubernetes agora.' } }, { title: 'Cloud', icon: 'fa-brands fa-aws', skills: ['Azure App Service','AWS Elastic Beanstalk','Railway e Render','SSL/HTTPS'], guide: { teste: 'Aplicação do Docker disponível num link público com HTTPS.', basta: 'Deploy via interface ou GitHub Actions.', naoPrecisa: 'Arquitetura Cloud ou VPCs agora.' } } ] },
+            { id: 'phase5', number: 'Fase 5', title: 'Especialização', duration: 'Contínuo', icon: 'fa-solid fa-gem', colorClass: 'p5', desc: 'Aprofundamento. O que separa Seniores do resto.', milestone: 'Arquitetar aplicação do zero, justificar decisões e manter o ecossistema saudável.', tip: 'Escolha 2 temas por mês. Não tente aprender tudo.', subcategories: [ { title: 'Arquitetura & Gestão', icon: 'fa-solid fa-building', skills: ['Clean Architecture','SOLID','CQRS com MediatR','Domain-Driven Design','Repository Pattern','Dependency Management: Semantic versioning','NuGet security updates','npm audit e atualização de dependências','Pinning versions vs floating versions'], guide: { teste: 'Refatorar projeto para Clean Architecture e atualizar pacotes inseguros apontados pelo npm audit ou NuGet.', basta: 'SOLID, separação de responsabilidades e saber ler/atualizar versões de pacotes.', naoPrecisa: 'DDD em sistemas pequenos onde atrapalha ou criar bibliotecas internas complexas agora.' } }, { title: 'Infra Avançada', icon: 'fa-solid fa-network-wired', skills: ['Redis','Mensageria com RabbitMQ','Microsserviços','API Gateway'], guide: { teste: 'Endpoint que salva no Redis, e se não existe busca no banco.', basta: 'Cache e filas assíncronas.', naoPrecisa: 'Quebrar monolito pequeno em 20 microsserviços.' } }, { title: 'Carreira', icon: 'fa-solid fa-briefcase', skills: ['Portfólio profissional','LinkedIn otimizado','Entrevistas técnicas','System Design'], guide: { teste: '2 projetos no GitHub com README perfeito e conseguir explicar a arquitetura.', basta: 'LinkedIn ativo e projetos reais.', naoPrecisa: 'Cursos caros de entrevista sem projetos para discutir.' } } ] }
+        ];
+
+        const projectsData = [
+            { title: 'Sistema de Tarefas', desc: 'CRUD com auth JWT, dashboard e filtros.', icon: 'fa-solid fa-list-check', difficulty: 'beginner', diffLabel: 'Iniciante', time: '2 semanas', tags: ['.NET','Angular','JWT','xUnit'] },
+            { title: 'E-commerce Simplificado', desc: 'Catálogo, carrinho e checkout com testes E2E.', icon: 'fa-solid fa-cart-shopping', difficulty: 'intermediate', diffLabel: 'Intermediário', time: '5 semanas', tags: ['C#','Angular','Docker','Playwright'] },
+            { title: 'Dashboard Financeiro', desc: 'Painel com gráficos, gestão e global error handling.', icon: 'fa-solid fa-chart-line', difficulty: 'intermediate', diffLabel: 'Intermediário', time: '4 semanas', tags: ['Chart.js','Signals','Interceptors'] },
+            { title: 'Chat em Tempo Real', desc: 'Chat com SignalR, salas e Smart/Dumb Components.', icon: 'fa-solid fa-comments', difficulty: 'intermediate', diffLabel: 'Intermediário', time: '3 semanas', tags: ['SignalR','WebSocket','Patterns'] },
+            { title: 'Painel Administrativo', desc: 'Interface admin com RBAC e API Versioning.', icon: 'fa-solid fa-shield-halved', difficulty: 'intermediate', diffLabel: 'Intermediário', time: '6 semanas', tags: ['RBAC','Policies','Versioning'] },
+            { title: 'API REST com Roles', desc: 'API com auth granular, SQL puro e Serilog.', icon: 'fa-solid fa-key', difficulty: 'intermediate', diffLabel: 'Intermediário', time: '3 semanas', tags: ['JWT','SQL','Serilog'] }
+        ];
+        const scheduleData = [ { name: 'Base', time: '2.5-3 meses', colorClass: 'p1' }, { name: 'Backend', time: '3 meses', colorClass: 'p2' }, { name: 'Angular', time: '3 meses', colorClass: 'p3' }, { name: 'Integração', time: '2-3 meses', colorClass: 'p4' }, { name: 'Especializa', time: 'Contínuo', colorClass: 'p5' } ];
+
+        let checkedSkills = {};
+        
+        function loadProgress() { try { const s = localStorage.getItem('fsa_roadmap_v6'); if (s) checkedSkills = JSON.parse(s); } catch(e) {} }
+        function saveProgress() { try { localStorage.setItem('fsa_roadmap_v6', JSON.stringify(checkedSkills)); } catch(e) {} }
+        
+        function calculateProgress() {
+            let total = 0, checked = 0;
+            phasesData.forEach(p => p.subcategories.forEach(s => s.skills.forEach(sk => { total++; if (checkedSkills[`${p.id}_${sk}`]) checked++; })));
+            return { total, checked, percent: total > 0 ? Math.round((checked / total) * 100) : 0 };
+        }
+
+        function updateRank(percent) {
+            const rankEl = document.getElementById('rankTitle');
+            if(percent === 100) rankEl.textContent = 'Arquiteto';
+            else if(percent >= 85) rankEl.textContent = 'Sênior';
+            else if(percent >= 60) rankEl.textContent = 'Pleno';
+            else if(percent >= 30) rankEl.textContent = 'Júnior';
+            else if(percent >= 10) rankEl.textContent = 'Aprendiz';
+            else rankEl.textContent = 'Recruta';
+        }
+
+        function checkStreak() {
+            const today = new Date().toISOString().split('T')[0];
+            let streakData = JSON.parse(localStorage.getItem('fsa_streak') || '{"count":0,"lastDate":null}');
+            if(streakData.lastDate === today) { } 
+            else if(streakData.lastDate === new Date(Date.now() - 86400000).toISOString().split('T')[0]) { streakData.count++; streakData.lastDate = today; } 
+            else { streakData.count = 1; streakData.lastDate = today; }
+            localStorage.setItem('fsa_streak', JSON.stringify(streakData));
+            document.getElementById('streakCount').textContent = streakData.count;
+        }
+
+        function shareProgress() {
+            const { percent } = calculateProgress();
+            const text = `🚀 Estou ${percent}% do caminho no Roadmap Full Stack C# + Angular 2026! Meu nível atual é ${document.getElementById('rankTitle').textContent}. Foco em construir, não em correr! #csharp #angular #fullstack #developer`;
+            const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}&summary=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('fsa_theme', newTheme);
+            document.getElementById('themeBtn').innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        }
+
+        function loadTheme() {
+            const saved = localStorage.getItem('fsa_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            document.getElementById('themeBtn').innerHTML = saved === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        }
+
+        function resetProgress() { checkedSkills = {}; saveProgress(); renderPhases(); updateGlobalProgress(); }
+        function toggleMobileMenu() { const m = document.getElementById('mobileMenu'); m.classList.toggle('open'); document.getElementById('menu-icon').className = m.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars'; }
+        function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior:'smooth' }); }
+
+        function renderPhases() {
+            const container = document.getElementById('phasesContainer');
+            container.innerHTML = '';
+            let totalSkills = 0;
+
+            phasesData.forEach((phase, pi) => {
+                const allSkills = phase.subcategories.flatMap(s => s.skills);
+                totalSkills += allSkills.length;
+                const checkedCount = allSkills.filter(s => checkedSkills[`${phase.id}_${s}`]).length;
+                const total = allSkills.length;
+                const percent = total > 0 ? Math.round((checkedCount / total) * 100) : 0;
+
+                const block = document.createElement('div');
+                block.className = 'phase-block'; block.id = `phase-block-${pi}`;
+                
+                let subcategoriesHtml = '';
+                phase.subcategories.forEach(sub => {
+                    let skillsHtml = '';
+                    sub.skills.forEach(skill => {
+                        const key = `${phase.id}_${skill}`;
+                        const isChecked = checkedSkills[key] ? 'checked' : '';
+                        skillsHtml += `<div class="skill-item ${isChecked}" onclick="toggleSkill('${key}',this,${pi})"><div class="skill-check"><i class="fas fa-check"></i></div><span class="skill-name">${skill}</span></div>`;
+                    });
+
+                    let guideHtml = '';
+                    if(sub.guide) {
+                        guideHtml = `
+                        <div class="realistic-guide">
+                            <button class="guide-toggle" onclick="toggleGuide(this)"><i class="fas fa-graduation-cap"></i> Guia Realista <i class="fas fa-chevron-down chevron"></i></button>
+                            <div class="guide-content"><div class="guide-content-inner">
+                                ${sub.guide.teste ? `<div class="teste-pratico"><strong>Teste Prático:</strong> ${sub.guide.teste}</div>` : ''}
+                                <p><strong class="basta">✅ O que basta:</strong> ${sub.guide.basta}</p>
+                                <p><strong class="nao-precisa">❌ O que não precisa agora:</strong> ${sub.guide.naoPrecisa}</p>
+                            </div></div>
+                        </div>`;
+                    }
+
+                    subcategoriesHtml += `
+                    <div class="subcategory">
+                        <div class="subcategory-header"><div class="subcategory-icon"><i class="${sub.icon}"></i></div><div class="subcategory-title">${sub.title}</div></div>
+                        <div class="skills-grid">${skillsHtml}</div>
+                        ${guideHtml}
+                    </div>`;
+                });
+
+                block.innerHTML = `
+                    <div class="phase-header ${phase.colorClass} ${percent === 100 ? 'completed' : ''}" onclick="togglePhase(${pi})" id="phase-header-${pi}">
+                        <div class="phase-icon ${phase.colorClass}"><i class="${phase.icon}"></i></div>
+                        <div class="phase-info"><div class="phase-number ${phase.colorClass}">${phase.number} — ${phase.duration}</div><div class="phase-title">${phase.title}</div><div class="phase-desc">${phase.desc}</div></div>
+                        <div class="phase-meta"><div class="phase-duration"><i class="fa-regular fa-clock"></i> ${phase.duration}</div><div class="phase-progress-mini"><div class="phase-progress-bar"><div class="phase-progress-fill ${phase.colorClass}" style="width:${percent}%"></div></div><span>${checkedCount}/${total}</span></div></div>
+                        <i class="fas fa-chevron-down phase-toggle"></i>
+                    </div>
+                    <div class="phase-content" id="phase-content-${pi}"><div class="phase-content-inner">
+                        ${subcategoriesHtml}
+                        <div class="info-box milestone"><i class="fa-solid fa-flag"></i><span><strong>Marco:</strong> ${phase.milestone}</span></div>
+                        <div class="info-box tip"><i class="fa-solid fa-lightbulb"></i><span>${phase.tip}</span></div>
+                    </div></div>`;
+                container.appendChild(block);
+            });
+            document.getElementById('totalSkills').textContent = totalSkills;
+            observePhaseBlocks();
+        }
+
+        function togglePhase(i) { const h = document.getElementById(`phase-header-${i}`); const c = document.getElementById(`phase-content-${i}`); if(window.innerWidth < 769) { phasesData.forEach((p, idx) => { if(idx !== i) { document.getElementById(`phase-header-${idx}`)?.classList.remove('open'); document.getElementById(`phase-content-${idx}`)?.classList.remove('open'); } }); } h.classList.toggle('open'); c.classList.toggle('open'); }
+        function toggleGuide(btn) { btn.classList.toggle('open'); btn.nextElementSibling.classList.toggle('open'); }
+
+        function toggleSkill(key, el, pi) {
+            const phase = phasesData[pi]; const allSkills = phase.subcategories.flatMap(s => s.skills);
+            if (checkedSkills[key]) { delete checkedSkills[key]; el.classList.remove('checked'); } else { checkedSkills[key] = true; el.classList.add('checked'); }
+            saveProgress(); updatePhaseProgress(pi); updateGlobalProgress();
+            const checkedCount = allSkills.filter(s => checkedSkills[`${phase.id}_${s}`]).length;
+            if (checkedCount === allSkills.length && allSkills.length > 0) { document.getElementById(`phase-header-${pi}`).classList.add('completed'); startConfetti(); } else { document.getElementById(`phase-header-${pi}`).classList.remove('completed'); }
+        }
+
+        function updatePhaseProgress(pi) { const phase = phasesData[pi]; const allSkills = phase.subcategories.flatMap(s => s.skills); const checked = allSkills.filter(s => checkedSkills[`${phase.id}_${s}`]).length; const total = allSkills.length; const percent = total > 0 ? Math.round((checked / total) * 100) : 0; const block = document.getElementById(`phase-block-${pi}`); block.querySelector('.phase-progress-fill').style.width = `${percent}%`; block.querySelector('.phase-progress-mini span').textContent = `${checked}/${total}`; }
+
+        function updateGlobalProgress() {
+            const { percent } = calculateProgress();
+            document.getElementById('progressText').textContent = `${percent}%`;
+            document.getElementById('progressBarFill').style.width = `${percent}%`;
+            updateRank(percent);
+            const connectors = document.querySelectorAll('.timeline-connector');
+            phasesData.forEach((phase, i) => { const as = phase.subcategories.flatMap(s => s.skills); const t = as.length; const c = as.filter(s => checkedSkills[`${phase.id}_${s}`]).length; if (connectors[i]) connectors[i].style.setProperty('--fill', `${t > 0 ? Math.round((c/t)*100) : 0}%`); });
+        }
+
+        function renderProjects() { document.getElementById('projectsGrid').innerHTML = projectsData.map(p => `<div class="project-card"><div class="project-top"><div class="project-icon"><i class="${p.icon}"></i></div><span class="project-difficulty ${p.difficulty}">${p.diffLabel}</span></div><div class="project-title">${p.title}</div><div class="project-desc">${p.desc}</div><div class="project-tags" style="margin-top:12px;">${p.tags.map(t => `<span class="project-tag">${t}</span>`).join('')}</div></div>`).join(''); }
+        function renderSchedule() { document.getElementById('scheduleGrid').innerHTML = scheduleData.map(s => `<div class="schedule-card"><div class="schedule-dot ${s.colorClass}" style="background:var(--${s.colorClass});"></div><div class="schedule-name">${s.name}</div><div class="schedule-time">${s.time}</div></div>`).join(''); }
+        
+        function scrollToPhase(i) { togglePhase(i); document.getElementById(`phase-block-${i}`).scrollIntoView({ behavior:'smooth', block:'center' }); }
+        
+        function observePhaseBlocks() { const obs = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); } }); }, { threshold: 0.1 }); document.querySelectorAll('.phase-block').forEach(b => obs.observe(b)); }
+        window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40));
+
+        const confettiCanvas = document.getElementById('confetti-canvas'); const ctx = confettiCanvas.getContext('2d'); let confettiParticles = []; let animatingConfetti = false;
+        function resizeConfetti() { confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight; } window.addEventListener('resize', resizeConfetti); resizeConfetti();
+        function startConfetti() { if(animatingConfetti) return; animatingConfetti = true; for(let i=0; i<150; i++) { confettiParticles.push({ x: Math.random() * confettiCanvas.width, y: Math.random() * confettiCanvas.height - confettiCanvas.height, w: Math.random() * 10 + 5, h: Math.random() * 6 + 3, color: ['#00e896','#7c6aff','#ff5577','#4dc9f6','#ffb340'][Math.floor(Math.random()*5)], vx: (Math.random() - 0.5) * 4, vy: Math.random() * 3 + 2, rot: Math.random() * 360, vr: (Math.random() - 0.5) * 10 }); } animateConfetti(); setTimeout(() => { animatingConfetti = false; }, 3000); }
+        function animateConfetti() { if(confettiParticles.length === 0) { ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height); return; } requestAnimationFrame(animateConfetti); ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height); confettiParticles.forEach((p, i) => { p.x += p.vx; p.y += p.vy; p.rot += p.vr; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot * Math.PI / 180); ctx.fillStyle = p.color; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore(); if(p.y > confettiCanvas.height + 20) confettiParticles.splice(i, 1); }); }
+
+        loadProgress(); loadTheme(); checkStreak(); renderPhases(); renderProjects(); renderSchedule(); updateGlobalProgress();
+        if(window.innerWidth > 768) setTimeout(() => togglePhase(0), 800);
+    </script>
+</body>
+</html>
