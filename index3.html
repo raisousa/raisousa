@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap Full Stack C# + Angular 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #050a09;
+            --bg-elevated: #0b1411;
+            --card: #101d19;
+            --card-hover: #152420;
+            --border: #1e312b;
+            --border-light: #2a4339;
+            --accent: #00e896;
+            --accent-dim: #00c47e;
+            --accent-glow: rgba(0, 232, 150, 0.1);
+            --accent-glow-strong: rgba(0, 232, 150, 0.25);
+            --secondary: #ff7a55;
+            --tertiary: #4dc9f6;
+            --fg: #e2f0ea;
+            --fg-secondary: #9bb5aa;
+            --fg-muted: #5e7a6e;
+            --phase1: #00e896; --phase2: #7c6aff; --phase3: #ff5577; --phase4: #4dc9f6; --phase5: #ffb340;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== Fundo Nebulosa ===== */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(0,232,150,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,232,150,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .bg-glow { position: fixed; z-index: 0; pointer-events: none; border-radius: 50%; filter: blur(80px); }
+        .bg-glow-1 { top: -200px; right: -100px; width: 600px; height: 600px; background: rgba(0,232,150,0.06); animation: floatG 15s ease-in-out infinite; }
+        .bg-glow-2 { bottom: -200px; left: -100px; width: 800px; height: 800px; background: rgba(124,106,255,0.05); animation: floatG 20s ease-in-out infinite reverse; }
+        .bg-glow-3 { top: 50%; left: 50%; width: 500px; height: 500px; background: rgba(255,85,119,0.03); animation: floatG 25s ease-in-out infinite; }
+        @keyframes floatG { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-30px)} }
+
+        .particles-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+        .container { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(5,10,9,0.85); backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border); transition: all 0.3s ease;
+        }
+        .navbar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+        .navbar-inner { max-width: 1120px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .navbar-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--accent); }
+        .navbar-logo .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 12px var(--accent-glow-strong); }
+
+        .navbar-progress { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; }
+        .progress-bar-container { width: 120px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--tertiary)); border-radius: 3px; width: 0%; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
+
+        /* Desktop Nav */
+        .desktop-nav { display: flex; gap: 4px; align-items: center; }
+        .nav-pill { padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--fg-muted); background: transparent; border: 1px solid transparent; border-radius: 20px; cursor: pointer; transition: all 0.25s ease; font-family: 'Space Grotesk', sans-serif; }
+        .nav-pill:hover { color: var(--fg); background: var(--card); border-color: var(--border); }
+        .reset-btn { padding: 6px 14px; background: transparent; border: 1px solid var(--border); border-radius: 20px; color: var(--fg-muted); font-size: 12px; cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.25s ease; margin-left: 8px; }
+        .reset-btn:hover { border-color: var(--secondary); color: var(--secondary); }
+
+        /* Mobile Menu */
+        .mobile-toggle { display: none; background: none; border: 1px solid var(--border); color: var(--fg); width: 40px; height: 40px; border-radius: 10px; font-size: 18px; cursor: pointer; align-items: center; justify-content: center; }
+        .mobile-menu { display: none; position: fixed; top: 65px; left: 0; right: 0; background: rgba(5,10,9,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 16px 24px; z-index: 99; flex-direction: column; gap: 8px; }
+        .mobile-menu.open { display: flex; }
+        .mobile-link { padding: 12px 0; font-size: 16px; color: var(--fg-secondary); border-bottom: 1px solid var(--border); cursor: pointer; transition: color 0.2s; }
+        .mobile-link:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .desktop-nav { display: none; }
+            .mobile-toggle { display: flex; }
+            .progress-bar-container { width: 80px; }
+        }
+
+        /* ===== Hero ===== */
+        .hero { padding: 120px 0 40px; text-align: center; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; background: var(--accent-glow); border: 1px solid rgba(0,232,150,0.2); border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 24px; animation: fadeInDown 0.8s ease; }
+        .hero-title { font-size: clamp(36px, 8vw, 72px); font-weight: 700; letter-spacing: -2.5px; line-height: 1.05; margin-bottom: 20px; animation: fadeInUp 0.8s ease; }
+        .hero-title .highlight { background: linear-gradient(135deg, var(--accent), var(--tertiary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-subtitle { font-size: 17px; color: var(--fg-secondary); max-width: 620px; margin: 0 auto 36px; line-height: 1.7; animation: fadeInUp 0.8s ease 0.15s both; }
+
+        .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; max-width: 600px; margin: 0 auto; animation: fadeInUp 0.8s ease 0.3s both; }
+        .hero-stat { padding: 16px; background: rgba(16,29,25,0.6); border: 1px solid var(--border); border-radius: 12px; backdrop-filter: blur(10px); }
+        .hero-stat-value { font-size: 24px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--fg); }
+        .hero-stat-label { font-size: 11px; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+        @keyframes fadeInDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ===== Timeline (Desktop) ===== */
+        .timeline-visual { display: flex; align-items: center; justify-content: center; gap: 0; margin: 0 auto 48px; max-width: 820px; animation: fadeInUp 0.8s ease 0.45s both; }
+        .timeline-node { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; font-family: 'JetBrains Mono', monospace; cursor: pointer; position: relative; transition: all 0.3s ease; flex-shrink: 0; }
+        .timeline-node::after { content: attr(data-label); position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 500; white-space: nowrap; color: var(--fg-muted); }
+        .timeline-node:hover { transform: scale(1.15); }
+        .timeline-node.p1 { background: rgba(0,232,150,0.12); border: 2px solid var(--phase1); color: var(--phase1); box-shadow: 0 0 15px rgba(0,232,150,0.1); }
+        .timeline-node.p2 { background: rgba(124,106,255,0.12); border: 2px solid var(--phase2); color: var(--phase2); box-shadow: 0 0 15px rgba(124,106,255,0.1); }
+        .timeline-node.p3 { background: rgba(255,85,119,0.12); border: 2px solid var(--phase3); color: var(--phase3); box-shadow: 0 0 15px rgba(255,85,119,0.1); }
+        .timeline-node.p4 { background: rgba(77,201,246,0.12); border: 2px solid var(--phase4); color: var(--phase4); box-shadow: 0 0 15px rgba(77,201,246,0.1); }
+        .timeline-node.p5 { background: rgba(255,179,64,0.12); border: 2px solid var(--phase5); color: var(--phase5); box-shadow: 0 0 15px rgba(255,179,64,0.1); }
+        .timeline-connector { flex: 1; height: 3px; background: var(--border); position: relative; min-width: 20px; border-radius: 2px; }
+        .timeline-connector::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: var(--fill,0%); transition: width 0.6s ease; border-radius: 2px; }
+        .timeline-connector.p1::after { background: var(--phase1); } .timeline-connector.p2::after { background: var(--phase2); } .timeline-connector.p3::after { background: var(--phase3); } .timeline-connector.p4::after { background: var(--phase4); }
+
+        @media (max-width: 768px) {
+            .timeline-visual { display: none; }
+        }
+
+        /* ===== Phases ===== */
+        .phases-section { padding-bottom: 40px; }
+        .phase-block { margin-bottom: 24px; opacity: 0; transform: translateY(40px); transition: all 0.6s cubic-bezier(0.4,0,0.2,1); }
+        .phase-block.visible { opacity: 1; transform: translateY(0); }
+
+        .phase-header { display: flex; align-items: center; gap: 16px; cursor: pointer; padding: 20px; background: rgba(16,29,25,0.7); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 16px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .phase-header::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; border-radius: 0 2px 2px 0; }
+        .phase-header.p1::before { background: var(--phase1); } .phase-header.p2::before { background: var(--phase2); } .phase-header.p3::before { background: var(--phase3); } .phase-header.p4::before { background: var(--phase4); } .phase-header.p5::before { background: var(--phase5); }
+        
+        .phase-header:hover { border-color: var(--border-light); transform: translateY(-2px); }
+        .phase-header.open { border-radius: 16px 16px 0 0; border-bottom-color: transparent; transform: translateY(0); }
+        
+        /* Efeito brilho ao completar */
+        .phase-header.completed { border-color: rgba(0,232,150,0.3); box-shadow: 0 0 30px rgba(0,232,150,0.05); }
+        .phase-header.completed::after { content: '\f058'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: 50px; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 20px; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        @keyframes popIn { 0% { transform: translateY(-50%) scale(0); } 100% { transform: translateY(-50%) scale(1); } }
+
+        .phase-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .phase-icon.p1 { background: rgba(0,232,150,0.1); color: var(--phase1); } .phase-icon.p2 { background: rgba(124,106,255,0.1); color: var(--phase2); } .phase-icon.p3 { background: rgba(255,85,119,0.1); color: var(--phase3); } .phase-icon.p4 { background: rgba(77,201,246,0.1); color: var(--phase4); } .phase-icon.p5 { background: rgba(255,179,64,0.1); color: var(--phase5); }
+
+        .phase-info { flex: 1; }
+        .phase-number { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px; }
+        .phase-number.p1 { color: var(--phase1); } .phase-number.p2 { color: var(--phase2); } .phase-number.p3 { color: var(--phase3); } .phase-number.p4 { color: var(--phase4); } .phase-number.p5 { color: var(--phase5); }
+        .phase-title { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+        .phase-desc { font-size: 13px; color: var(--fg-muted); margin-top: 4px; display: none; } /* Oculto no mobile por padrão */
+
+        .phase-meta { display: flex; align-items: center; gap: 12px; }
+        .phase-duration { font-size: 12px; color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; background: var(--bg); padding: 4px 8px; border-radius: 6px; }
+        .phase-progress-mini { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; }
+        .phase-progress-bar { width: 60px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+        .phase-progress-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; width: 0%; }
+        .phase-progress-fill.p1 { background: var(--phase1); } .phase-progress-fill.p2 { background: var(--phase2); } .phase-progress-fill.p3 { background: var(--phase3); } .phase-progress-fill.p4 { background: var(--phase4); } .phase-progress-fill.p5 { background: var(--phase5); }
+
+        .phase-toggle { color: var(--fg-muted); transition: transform 0.3s ease; font-size: 14px; }
+        .phase-header.open .phase-toggle { transform: rotate(180deg); }
+
+        @media (min-width: 769px) { .phase-desc { display: block; } }
+        @media (max-width: 768px) { .phase-meta { flex-direction: column; align-items: flex-end; gap: 4px; } .phase-header.open .phase-desc { display: block; } }
+
+        .phase-content { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1); background: rgba(16,29,25,0.7); backdrop-filter: blur(12px); border: 1px solid var(--border); border-top: none; border-radius: 0 0 16px 16px; }
+        .phase-content.open { max-height: 8000px; }
+        .phase-content-inner { padding: 24px; }
+
+        .subcategory { margin-bottom: 24px; }
+        .subcategory-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        .subcategory-icon { width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; background: var(--bg); border: 1px solid var(--border); color: var(--fg-muted); }
+        .subcategory-title { font-size: 13px; font-weight: 600; color: var(--fg-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+        .subcategory-count { font-size: 11px; color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; margin-left: auto; }
+
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+        @media (max-width: 768px) { .skills-grid { grid-template-columns: 1fr; } }
+
+        .skill-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s ease; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .skill-item:hover { background: var(--card-hover); border-color: var(--border-light); }
+        .skill-item:active { transform: scale(0.98); }
+        .skill-item.checked { border-color: rgba(0,232,150,0.2); background: rgba(0,232,150,0.03); }
+        
+        .skill-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-size: 10px; color: transparent; }
+        .skill-item.checked .skill-check { border-color: var(--accent); background: var(--accent); color: var(--bg); transform: scale(1.1); }
+        
+        .skill-name { font-size: 13px; font-weight: 500; color: var(--fg-secondary); transition: color 0.2s; }
+        .skill-item.checked .skill-name { color: var(--fg); text-decoration: line-through; text-decoration-color: var(--fg-muted); }
+
+        .info-box { margin-top: 20px; padding: 16px; border-radius: 10px; display: flex; gap: 12px; align-items: flex-start; }
+        .info-box i { margin-top: 2px; font-size: 14px; flex-shrink: 0; }
+        .info-box.milestone { background: rgba(0,232,150,0.04); border: 1px solid rgba(0,232,150,0.1); }
+        .info-box.milestone i { color: var(--accent); }
+        .info-box.tip { background: rgba(255,179,64,0.04); border: 1px solid rgba(255,179,64,0.1); }
+        .info-box.tip i { color: var(--phase5); }
+        .info-box.resource { background: rgba(77,201,246,0.04); border: 1px solid rgba(77,201,246,0.1); }
+        .info-box.resource i { color: var(--tertiary); }
+        .info-box span { font-size: 13px; color: var(--fg-secondary); line-height: 1.5; }
+        .info-box a { color: var(--tertiary); text-decoration: underline; }
+
+        /* ===== Projetos ===== */
+        .projects-section { padding: 60px 0; }
+        .section-header { text-align: center; margin-bottom: 48px; }
+        .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--secondary); margin-bottom: 12px; }
+        .section-title { font-size: 32px; font-weight: 700; letter-spacing: -1px; }
+
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+        @media (max-width: 768px) { .projects-grid { grid-template-columns: 1fr; } }
+
+        .project-card { padding: 24px; background: rgba(16,29,25,0.6); border: 1px solid var(--border); border-radius: 14px; transition: all 0.3s ease; backdrop-filter: blur(10px); position: relative; overflow: hidden; }
+        .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity 0.3s; }
+        .project-card:hover { border-color: var(--border-light); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); }
+        .project-card:hover::before { opacity: 1; }
+        .project-card.diff-beginner::before { background: linear-gradient(90deg, var(--accent), var(--tertiary)); }
+        .project-card.diff-intermediate::before { background: linear-gradient(90deg, var(--tertiary), var(--phase2)); }
+        .project-card.diff-advanced::before { background: linear-gradient(90deg, var(--phase2), var(--phase3)); }
+
+        .project-top { display: flex; justify-content: space-between; margin-bottom: 12px; }
+        .project-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-glow); display: flex; align-items: center; justify-content: center; color: var(--accent); }
+        .project-difficulty { padding: 4px 10px; font-size: 10px; font-weight: 600; text-transform: uppercase; border-radius: 6px; height: fit-content; }
+        .beginner { background: rgba(0,232,150,0.1); color: var(--accent); }
+        .intermediate { background: rgba(77,201,246,0.1); color: var(--tertiary); }
+        .advanced { background: rgba(124,106,255,0.1); color: var(--phase2); }
+        
+        .project-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+        .project-desc { font-size: 13px; color: var(--fg-muted); line-height: 1.5; margin-bottom: 12px; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .project-tag { padding: 3px 8px; font-size: 10px; border-radius: 4px; background: var(--bg); border: 1px solid var(--border); color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; }
+
+        /* ===== Schedule ===== */
+        .schedule-section { padding: 40px 0; }
+        .schedule-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+        @media (max-width: 768px) { .schedule-grid { grid-template-columns: repeat(2, 1fr); } }
+        .schedule-card { padding: 20px; background: rgba(16,29,25,0.6); border: 1px solid var(--border); border-radius: 12px; text-align: center; }
+        .schedule-dot { width: 10px; height: 10px; border-radius: 50%; margin: 0 auto 10px; }
+        .schedule-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .schedule-time { font-size: 12px; color: var(--fg-muted); font-family: 'JetBrains Mono', monospace; }
+
+        /* ===== CTA ===== */
+        .cta-section { padding: 40px 0 80px; text-align: center; }
+        .cta-box { padding: 48px; background: linear-gradient(135deg, rgba(0,232,150,0.05), rgba(77,201,246,0.02)); border: 1px solid rgba(0,232,150,0.1); border-radius: 24px; position: relative; overflow: hidden; }
+        .cta-title { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
+        .cta-text { font-size: 16px; color: var(--fg-secondary); max-width: 500px; margin: 0 auto 28px; line-height: 1.7; }
+        .cta-btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: var(--accent); color: var(--bg); font-weight: 700; font-size: 15px; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; font-family: 'Space Grotesk', sans-serif; box-shadow: 0 0 20px rgba(0,232,150,0.2); }
+        .cta-btn:hover { background: #00ffaa; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,232,150,0.4); }
+
+        /* Confetti Canvas */
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+
+        footer { padding: 24px 0; text-align: center; border-top: 1px solid var(--border); }
+        footer p { font-size: 12px; color: var(--fg-muted); }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+    <canvas class="particles-canvas" id="particlesCanvas"></canvas>
+    <canvas id="confetti-canvas"></canvas>
+
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-logo"><div class="dot"></div><span>Roadmap 2026</span></div>
+            <div class="navbar-progress">
+                <span id="progressText">0%</span>
+                <div class="progress-bar-container"><div class="progress-bar-fill" id="progressBarFill"></div></div>
+            </div>
+            <div class="desktop-nav">
+                <button class="nav-pill" onclick="scrollTo('phases')">Fases</button>
+                <button class="nav-pill" onclick="scrollTo('projects')">Projetos</button>
+                <button class="reset-btn" onclick="resetProgress()"><i class="fas fa-redo" style="margin-right:4px;font-size:10px;"></i>Reset</button>
+            </div>
+            <button class="mobile-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars" id="menu-icon"></i></button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-link" onclick="scrollTo('phases'); toggleMobileMenu();">Fases</div>
+        <div class="mobile-link" onclick="scrollTo('projects'); toggleMobileMenu();">Projetos</div>
+        <div class="mobile-link" onclick="resetProgress(); toggleMobileMenu();">Resetar Progresso</div>
+    </div>
+
+    <header class="hero">
+        <div class="container">
+            <div class="hero-badge"><i class="fas fa-rocket"></i> Edição Galáxia</div>
+            <h1 class="hero-title">Full Stack<br><span class="highlight">C# + Angular</span></h1>
+            <p class="hero-subtitle">A jornada definitiva do zero ao profissional. Rastreie seu progresso, construa projetos reais e torne-se empregável.</p>
+            <div class="hero-stats">
+                <div class="hero-stat"><div class="hero-stat-value" id="totalSkills">0</div><div class="hero-stat-label">Skills</div></div>
+                <div class="hero-stat"><div class="hero-stat-value">5</div><div class="hero-stat-label">Fases</div></div>
+                <div class="hero-stat"><div class="hero-stat-value">8+</div><div class="hero-stat-label">Projetos</div></div>
+                <div class="hero-stat"><div class="hero-stat-value">9-14m</div><div class="hero-stat-label">Prazo</div></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="timeline-visual" id="timelineVisual">
+            <div class="timeline-node p1" data-label="Base" onclick="scrollToPhase(0)">1</div>
+            <div class="timeline-connector p1" style="--fill:0%"></div>
+            <div class="timeline-node p2" data-label="Backend" onclick="scrollToPhase(1)">2</div>
+            <div class="timeline-connector p2" style="--fill:0%"></div>
+            <div class="timeline-node p3" data-label="Angular" onclick="scrollToPhase(2)">3</div>
+            <div class="timeline-connector p3" style="--fill:0%"></div>
+            <div class="timeline-node p4" data-label="FullStack" onclick="scrollToPhase(3)">4</div>
+            <div class="timeline-connector p4" style="--fill:0%"></div>
+            <div class="timeline-node p5" data-label="Especializa" onclick="scrollToPhase(4)">5</div>
+        </div>
+    </div>
+
+    <section class="phases-section" id="phases">
+        <div class="container" id="phasesContainer"></div>
+    </section>
+
+    <section class="projects-section" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Portfolio</div>
+                <h2 class="section-title">Projetos Recomendados</h2>
+            </div>
+            <div class="projects-grid" id="projectsGrid"></div>
+        </div>
+    </section>
+
+    <section class="schedule-section" id="schedule">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Cronograma</div>
+                <h2 class="section-title">Tempo Estimado</h2>
+            </div>
+            <div class="schedule-grid" id="scheduleGrid"></div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box">
+                <h2 class="cta-title">Foco em construir, nao em correr</h2>
+                <p class="cta-text">Tempo realista para empregabilidade: 8 a 14 meses. O segredo é consistência e projetos reais.</p>
+                <button class="cta-btn" onclick="scrollTo('phases')"><i class="fas fa-play"></i> Começar Agora</button>
+            </div>
+        </div>
+    </section>
+
+    <footer><div class="container"><p>Roadmap Full Stack C# + Angular 2026 — Progresso salvo localmente</p></div></footer>
+
+    <script>
+        // ===== Dados =====
+        const phasesData = [
+            {
+                id: 'phase1', number: 'Fase 1', title: 'Base da Programação', duration: '2 meses',
+                icon: 'fa-solid fa-seedling', colorClass: 'p1',
+                desc: 'Fundamentos sólidos. Sem isso, cada tecnologia futura sera mais dificil do que deveria.',
+                milestone: 'Voce deve conseguir criar uma pagina web responsiva do zero e versionar no Git.',
+                tip: 'Nao pule! Pratique lógica no Codewars ou HackerRank antes de avançar.',
+                resource: 'Curso Gratuito de Git: <a href="https://try.github.io" target="_blank">try.github.io</a>',
+                subcategories: [
+                    { title: 'Lógica & Algoritmos', icon: 'fa-solid fa-brain', skills: ['Lógica de programação','Estruturas de decisão e repetição','Funções, escopo e recursão','Arrays, listas e dicionários','Big O básico'] },
+                    { title: 'Versionamento', icon: 'fa-brands fa-git-alt', skills: ['Git e GitHub','Branches, merge e pull requests','Terminal Linux básico','Conventional Commits'] },
+                    { title: 'HTML & CSS', icon: 'fa-brands fa-html5', skills: ['HTML5 semântico','CSS3 moderno','Flexbox e Grid','Responsividade e mobile-first','Variáveis CSS','Animações CSS básicas'] },
+                    { title: 'JavaScript', icon: 'fa-brands fa-js', skills: ['JavaScript moderno (ES6+)','Promises, async/await','DOM e Fetch API','Desestruturação e spread','Map, filter, reduce','HTTP, REST e JSON'] }
+                ]
+            },
+            {
+                id: 'phase2', number: 'Fase 2', title: 'Backend com C# e .NET', duration: '3 meses',
+                icon: 'fa-solid fa-server', colorClass: 'p2',
+                desc: 'O coração do backend. Domine C#, construa APIs profissionais e persista dados.',
+                milestone: 'Voce deve conseguir criar uma API REST completa com Auth e documentação Swagger.',
+                tip: 'Crie pequenos projetos paralelos. Nada fixa melhor do que resolver um problema real.',
+                resource: 'Documentação Oficial: <a href="https://learn.microsoft.com/pt-br/dotnet/" target="_blank">Microsoft Learn</a>',
+                subcategories: [
+                    { title: 'C# Core', icon: 'fa-solid fa-code', skills: ['Fundamentos de C#','POO completa','Classes, structs e interfaces','Herança e polimorfismo','LINQ','Generics','Tratamento de exceções','Delegates e events','Async/Await'] },
+                    { title: 'ASP.NET Core', icon: 'fa-solid fa-globe', skills: ['ASP.NET Core','Minimal APIs e Controllers','Middlewares','Dependency Injection','Logging','Swagger e Postman','Configuração e ambientes'] },
+                    { title: 'Dados & ORM', icon: 'fa-solid fa-database', skills: ['Entity Framework Core','Migrations','SQL Server e PostgreSQL','Relacionamentos','Queries otimizadas'] },
+                    { title: 'Segurança & Testes', icon: 'fa-solid fa-shield-halved', skills: ['JWT Authentication','Roles, Claims e Policies','Testes com xUnit','Moq e mocking'] }
+                ]
+            },
+            {
+                id: 'phase3', number: 'Fase 3', title: 'Frontend com Angular', duration: '3 meses',
+                icon: 'fa-brands fa-angular', colorClass: 'p3',
+                desc: 'O framework enterprise mais usado com C#. Construa SPAs profissionais.',
+                milestone: 'Voce deve conseguir criar uma SPA completa com rotas, formulários reativos e consumo de API.',
+                tip: 'RxJS é o maior desafio. Dedique tempo extra entendendo Observables antes de ir para Signals.',
+                resource: 'Tour of Heroes: <a href="https://angular.io/tutorial" target="_blank">angular.io/tutorial</a>',
+                subcategories: [
+                    { title: 'TypeScript', icon: 'fa-solid fa-t', skills: ['TypeScript completo','Interfaces e types','Generics em TS','Utility types'] },
+                    { title: 'Angular Base', icon: 'fa-brands fa-angular', skills: ['Angular CLI','Components e templates','Data binding','Diretivas e Pipes','Lifecycle hooks','Standalone Components'] },
+                    { title: 'Formulários & RxJS', icon: 'fa-solid fa-list-check', skills: ['Reactive Forms','Validação de formulários','RxJS e Observables','Operators principais','Subjects'] },
+                    { title: 'Arquitetura & Perf', icon: 'fa-solid fa-sitemap', skills: ['Services e DI','HttpClient','Interceptors','Guards','Rotas e Lazy Loading','Signals','Performance com OnPush','Testes com Jasmine'] }
+                ]
+            },
+            {
+                id: 'phase4', number: 'Fase 4', title: 'Integração Full Stack', duration: '1-2 meses',
+                icon: 'fa-solid fa-link', colorClass: 'p4',
+                desc: 'Conectando frontend e backend. Junte tudo e construa aplicações deployáveis.',
+                milestone: 'Fazer deploy de uma aplicação full stack com Docker e CI/CD configurado na cloud.',
+                tip: 'Sabendo fazer deploy, voce ja se destaca de 80% dos iniciantes.',
+                resource: 'Docker Play: <a href="https://labs.play-with-docker.com/" target="_blank">Play with Docker</a>',
+                subcategories: [
+                    { title: 'Integração', icon: 'fa-solid fa-plug', skills: ['Angular consumindo API .NET','CORS','Variáveis de ambiente','Upload de arquivos','Paginação e filtros','SignalR'] },
+                    { title: 'Containers & DevOps', icon: 'fa-brands fa-docker', skills: ['Docker','Docker Compose','Dockerfile multi-stage','GitHub Actions','CI/CD'] },
+                    { title: 'Cloud', icon: 'fa-brands fa-aws', skills: ['Azure App Service','AWS Elastic Beanstalk','Railway e Render','SSL/HTTPS'] }
+                ]
+            },
+            {
+                id: 'phase5', number: 'Fase 5', title: 'Especialização', duration: 'Contínuo',
+                icon: 'fa-solid fa-gem', colorClass: 'p5',
+                desc: 'Aprofundamento em arquitetura e padrões. O que separa seniores do resto.',
+                milestone: 'Ser capaz de arquitetar uma aplicação do zero usando Clean Architecture e justificar decisões.',
+                tip: 'Nao tente aprender tudo de uma vez. Escolha 2 temas por mes e aprofunde-se.',
+                resource: 'Refactoring Guru: <a href="https://refactoring.guru/pt-br/design-patterns" target="_blank">Padrões de Projeto</a>',
+                subcategories: [
+                    { title: 'Arquitetura', icon: 'fa-solid fa-building', skills: ['Clean Architecture','SOLID','CQRS com MediatR','Domain-Driven Design','Repository Pattern'] },
+                    { title: 'Infra Avançada', icon: 'fa-solid fa-network-wired', skills: ['Redis','Mensageria com RabbitMQ','Microsserviços','API Gateway'] },
+                    { title: 'Qualidade', icon: 'fa-solid fa-shield', skills: ['Segurança OWASP','Rate Limiting','Health Checks','Serilog','Observabilidade'] },
+                    { title: 'Carreira', icon: 'fa-solid fa-briefcase', skills: ['Portfólio profissional','LinkedIn otimizado','Entrevistas técnicas','System Design'] }
+                ]
+            }
+        ];
+
+        const projectsData = [
+            { title: 'Sistema de Tarefas', desc: 'CRUD com auth JWT, dashboard e filtros.', icon: 'fa-solid fa-list-check', difficulty: 'beginner', diffLabel: 'Iniciante', time: '2 semanas', tags: ['.NET','Angular','JWT'] },
+            { title: 'E-commerce Simplificado', desc: 'Catálogo, carrinho de compras e checkout.', icon: 'fa-solid fa-cart-shopping', difficulty: 'intermediate', diffLabel: 'Intermediário', time: '5 semanas', tags: ['C#','Angular','Docker'] },
+            { title: 'Dashboard Financeiro', desc: 'Painel com gráficos e gestão de receitas/despesas.', icon: 'fa-solid fa-chart-line', difficulty: 'intermediate', diffLabel: 'Intermediário', time: '4 semanas', tags: ['Chart.js','Signals','API'] },
+            { title: 'Chat em Tempo Real', desc: 'Chat com SignalR, salas e histórico.', icon: 'fa-solid fa-comments', difficulty: 'intermediate', diffLabel: 'Intermediário', time: '3 semanas', tags: ['SignalR','WebSocket'] },
+            { title: 'Painel Administrativo', desc: 'Interface admin com RBAC e audit.', icon: 'fa-solid fa-shield-halved', difficulty: 'advanced', diffLabel: 'Avançado', time: '6 semanas', tags: ['RBAC','Policies','Audit'] },
+            { title: 'API REST com Roles', desc: 'API com auth granular e refresh tokens.', icon: 'fa-solid fa-key', difficulty: 'intermediate', diffLabel: 'Intermediário', time: '3 semanas', tags: ['JWT','Swagger','xUnit'] }
+        ];
+
+        const scheduleData = [
+            { name: 'Base', time: '2 meses', colorClass: 'p1' },
+            { name: 'Backend', time: '3 meses', colorClass: 'p2' },
+            { name: 'Angular', time: '3 meses', colorClass: 'p3' },
+            { name: 'Integração', time: '1-2 meses', colorClass: 'p4' },
+            { name: 'Especializa', time: 'Contínuo', colorClass: 'p5' }
+        ];
+
+        let checkedSkills = {};
+
+        function loadProgress() { try { const s = localStorage.getItem('fsa_galaxy_progress'); if (s) checkedSkills = JSON.parse(s); } catch(e) {} }
+        function saveProgress() { try { localStorage.setItem('fsa_galaxy_progress', JSON.stringify(checkedSkills)); } catch(e) {} }
+        
+        function resetProgress() {
+            checkedSkills = {};
+            saveProgress(); renderPhases(); updateGlobalProgress();
+            document.querySelectorAll('.phase-header').forEach(h => h.classList.remove('completed'));
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('open');
+            icon.className = menu.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+        }
+
+        // ===== Render =====
+        function renderPhases() {
+            const container = document.getElementById('phasesContainer');
+            container.innerHTML = '';
+            let totalSkills = 0;
+
+            phasesData.forEach((phase, pi) => {
+                const allSkills = phase.subcategories.flatMap(s => s.skills);
+                totalSkills += allSkills.length;
+                const checkedCount = allSkills.filter(s => checkedSkills[`${phase.id}_${s}`]).length;
+                const total = allSkills.length;
+                const percent = total > 0 ? Math.round((checkedCount / total) * 100) : 0;
+
+                const block = document.createElement('div');
+                block.className = 'phase-block';
+                block.id = `phase-block-${pi}`;
+
+                block.innerHTML = `
+                    <div class="phase-header ${phase.colorClass} ${percent === 100 ? 'completed' : ''}" onclick="togglePhase(${pi})" id="phase-header-${pi}">
+                        <div class="phase-icon ${phase.colorClass}"><i class="${phase.icon}"></i></div>
+                        <div class="phase-info">
+                            <div class="phase-number ${phase.colorClass}">${phase.number} — ${phase.duration}</div>
+                            <div class="phase-title">${phase.title}</div>
+                            <div class="phase-desc">${phase.desc}</div>
+                        </div>
+                        <div class="phase-meta">
+                            <div class="phase-duration"><i class="fa-regular fa-clock"></i> ${phase.duration}</div>
+                            <div class="phase-progress-mini">
+                                <div class="phase-progress-bar"><div class="phase-progress-fill ${phase.colorClass}" style="width:${percent}%"></div></div>
+                                <span>${checkedCount}/${total}</span>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down phase-toggle"></i>
+                    </div>
+                    <div class="phase-content" id="phase-content-${pi}">
+                        <div class="phase-content-inner">
+                            ${phase.subcategories.map(sub => `
+                                <div class="subcategory">
+                                    <div class="subcategory-header">
+                                        <div class="subcategory-icon"><i class="${sub.icon}"></i></div>
+                                        <div class="subcategory-title">${sub.title}</div>
+                                    </div>
+                                    <div class="skills-grid">
+                                        ${sub.skills.map(skill => {
+                                            const key = `${phase.id}_${skill}`;
+                                            return `<div class="skill-item ${checkedSkills[key] ? 'checked' : ''}" onclick="toggleSkill('${key}',this,${pi})">
+                                                <div class="skill-check"><i class="fas fa-check"></i></div>
+                                                <span class="skill-name">${skill}</span>
+                                            </div>`;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                            <div class="info-box milestone"><i class="fa-solid fa-flag"></i><span>${phase.milestone}</span></div>
+                            <div class="info-box tip"><i class="fa-solid fa-lightbulb"></i><span>${phase.tip}</span></div>
+                            <div class="info-box resource"><i class="fa-solid fa-book"></i><span>${phase.resource}</span></div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(block);
+            });
+
+            document.getElementById('totalSkills').textContent = totalSkills;
+            observePhaseBlocks();
+        }
+
+        function togglePhase(i) {
+            const h = document.getElementById(`phase-header-${i}`);
+            const c = document.getElementById(`phase-content-${i}`);
+            // Fecha outros no mobile
+            if(window.innerWidth < 769) {
+                phasesData.forEach((p, idx) => {
+                    if(idx !== i) {
+                        document.getElementById(`phase-header-${idx}`)?.classList.remove('open');
+                        document.getElementById(`phase-content-${idx}`)?.classList.remove('open');
+                    }
+                });
+            }
+            h.classList.toggle('open'); c.classList.toggle('open');
+        }
+
+        function toggleSkill(key, el, pi) {
+            const phase = phasesData[pi];
+            const allSkills = phase.subcategories.flatMap(s => s.skills);
+            
+            if (checkedSkills[key]) { delete checkedSkills[key]; el.classList.remove('checked'); } 
+            else { checkedSkills[key] = true; el.classList.add('checked'); }
+            
+            saveProgress(); updatePhaseProgress(pi); updateGlobalProgress();
+
+            // Checar se completou a fase agora
+            const checkedCount = allSkills.filter(s => checkedSkills[`${phase.id}_${s}`]).length;
+            if (checkedCount === allSkills.length && allSkills.length > 0) {
+                document.getElementById(`phase-header-${pi}`).classList.add('completed');
+                startConfetti();
+            } else {
+                document.getElementById(`phase-header-${pi}`).classList.remove('completed');
+            }
+        }
+
+        function updatePhaseProgress(pi) {
+            const phase = phasesData[pi];
+            const allSkills = phase.subcategories.flatMap(s => s.skills);
+            const checked = allSkills.filter(s => checkedSkills[`${phase.id}_${s}`]).length;
+            const total = allSkills.length;
+            const percent = total > 0 ? Math.round((checked / total) * 100) : 0;
+            const block = document.getElementById(`phase-block-${pi}`);
+            block.querySelector('.phase-progress-fill').style.width = `${percent}%`;
+            block.querySelector('.phase-progress-mini span').textContent = `${checked}/${total}`;
+        }
+
+        function updateGlobalProgress() {
+            let total = 0, checked = 0;
+            phasesData.forEach(p => p.subcategories.forEach(s => s.skills.forEach(sk => { total++; if (checkedSkills[`${p.id}_${sk}`]) checked++; })));
+            const percent = total > 0 ? Math.round((checked / total) * 100) : 0;
+            document.getElementById('progressText').textContent = `${percent}%`;
+            document.getElementById('progressBarFill').style.width = `${percent}%`;
+            
+            // Atualizar conectores da timeline
+            const connectors = document.querySelectorAll('.timeline-connector');
+            phasesData.forEach((phase, i) => {
+                const allSkills = phase.subcategories.flatMap(s => s.skills);
+                const t = allSkills.length;
+                const c = allSkills.filter(s => checkedSkills[`${phase.id}_${s}`]).length;
+                if (connectors[i]) connectors[i].style.setProperty('--fill', `${t > 0 ? Math.round((c/t)*100) : 0}%`);
+            });
+        }
+
+        function renderProjects() {
+            document.getElementById('projectsGrid').innerHTML = projectsData.map(p => `
+                <div class="project-card diff-${p.difficulty}">
+                    <div class="project-top">
+                        <div class="project-icon"><i class="${p.icon}"></i></div>
+                        <span class="project-difficulty ${p.difficulty}">${p.diffLabel}</span>
+                    </div>
+                    <div class="project-title">${p.title}</div>
+                    <div class="project-desc">${p.desc}</div>
+                    <div class="project-tags" style="margin-top:12px;">${p.tags.map(t => `<span class="project-tag">${t}</span>`).join('')}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderSchedule() {
+            document.getElementById('scheduleGrid').innerHTML = scheduleData.map(s => `
+                <div class="schedule-card">
+                    <div class="schedule-dot ${s.colorClass}" style="background:var(--${s.colorClass}); box-shadow:0 0 10px color-mix(in srgb, var(--${s.colorClass}) 40%, transparent);"></div>
+                    <div class="schedule-name">${s.name}</div>
+                    <div class="schedule-time">${s.time}</div>
+                </div>
+            `).join('');
+        }
+
+        function scrollTo(id) { document.getElementById(id).scrollIntoView({ behavior:'smooth' }); }
+        function scrollToPhase(i) { togglePhase(i); document.getElementById(`phase-block-${i}`).scrollIntoView({ behavior:'smooth', block:'center' }); }
+
+        // ===== Animações & Utils =====
+        function observePhaseBlocks() {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); } });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.phase-block').forEach(b => obs.observe(b));
+        }
+
+        window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40));
+
+        // ===== Confetti Maluco =====
+        const confettiCanvas = document.getElementById('confetti-canvas');
+        const ctx = confettiCanvas.getContext('2d');
+        let confettiParticles = [];
+        let animatingConfetti = false;
+
+        function resizeConfetti() { confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeConfetti); resizeConfetti();
+
+        function startConfetti() {
+            if(animatingConfetti) return;
+            animatingConfetti = true;
+            for(let i=0; i<150; i++) {
+                confettiParticles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    w: Math.random() * 10 + 5,
+                    h: Math.random() * 6 + 3,
+                    color: ['#00e896','#7c6aff','#ff5577','#4dc9f6','#ffb340'][Math.floor(Math.random()*5)],
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: Math.random() * 3 + 2,
+                    rot: Math.random() * 360,
+                    vr: (Math.random() - 0.5) * 10
+                });
+            }
+            animateConfetti();
+            setTimeout(() => { animatingConfetti = false; }, 3000);
+        }
+
+        function animateConfetti() {
+            if(confettiParticles.length === 0) { ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height); return; }
+            requestAnimationFrame(animateConfetti);
+            ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+            
+            confettiParticles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+                ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot * Math.PI / 180);
+                ctx.fillStyle = p.color; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore();
+                if(p.y > confettiCanvas.height + 20) confettiParticles.splice(i, 1);
+            });
+        }
+
+        // ===== Partículas de Fundo =====
+        function initParticles() {
+            const canvas = document.getElementById('particlesCanvas');
+            const pctx = canvas.getContext('2d');
+            let w, h, particles = [];
+            function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+            resize(); window.addEventListener('resize', resize);
+
+            class P { constructor() { this.reset(); } reset() { this.x=Math.random()*w; this.y=Math.random()*h; this.s=Math.random()*1.5+0.5; this.sx=(Math.random()-0.5)*0.2; this.sy=(Math.random()-0.5)*0.2; this.o=Math.random()*0.2+0.05; } update() { this.x+=this.sx; this.y+=this.sy; if(this.x<0||this.x>w||this.y<0||this.y>h) this.reset(); } draw() { pctx.beginPath(); pctx.arc(this.x,this.y,this.s,0,Math.PI*2); pctx.fillStyle=`rgba(0,232,150,${this.o})`; pctx.fill(); } }
+            for(let i=0;i<40;i++) particles.push(new P());
+
+            function animate() {
+                pctx.clearRect(0,0,w,h);
+                particles.forEach(p => { p.update(); p.draw(); });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function animateCounter() {
+            const total = phasesData.reduce((a,p) => a + p.subcategories.reduce((b,s) => b + s.skills.length, 0), 0);
+            const el = document.getElementById('totalSkills');
+            let cur = 0; const step = Math.ceil(total/30);
+            const iv = setInterval(() => { cur += step; if(cur >= total) { cur = total; clearInterval(iv); } el.textContent = cur; }, 40);
+        }
+
+        // ===== Init =====
+        loadProgress();
+        renderPhases();
+        renderProjects();
+        renderSchedule();
+        updateGlobalProgress();
+        initParticles();
+        setTimeout(animateCounter, 400);
+        
+        // Abrir primeira fase no desktop
+        if(window.innerWidth > 768) setTimeout(() => togglePhase(0), 800);
+    </script>
+</body>
+</html>
